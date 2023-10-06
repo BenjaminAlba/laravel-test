@@ -9,10 +9,6 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /**
-     * Instantiate a new LoginRegisterController instance.
-     */
-    //IDK
     public function __construct()
     {
         $this->middleware('guest')->except([
@@ -36,14 +32,14 @@ class LoginController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'role' => 'usuario'
         ]);
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        //[!]
-        return redirect()->route('dashboard')
+        return redirect()->route('landing')
         ->withSuccess('You have successfully registered & logged in!');
     }
 
@@ -62,6 +58,19 @@ class LoginController extends Controller
         if(Auth::attempt($credentials))
         {
             $request->session()->regenerate();
+            if(Auth::user()->role == "administrador"){
+                return redirect()->route('admin-dashboard')
+                    ->withSuccess('You have successfully logged in!');
+            }
+            else if(Auth::user()->role == "proveedor"){
+                return redirect()->route('provider-dashboard')
+                    ->withSuccess('You have successfully logged in!');
+            }
+            else if(Auth::user()->role == "usuario"){
+                return redirect()->route('user-dashboard')
+                    ->withSuccess('You have successfully logged in!');
+            }
+
             return redirect()->route('landing')
                 ->withSuccess('You have successfully logged in!');
         }
@@ -70,19 +79,6 @@ class LoginController extends Controller
             'email' => 'Your provided credentials do not match in our records.',
         ])->onlyInput('email');
 
-    }
-
-    public function dashboard()
-    {
-        if(Auth::check())
-        {
-            return view('auth.dashboard');
-        }
-        
-        return redirect()->route('login')
-            ->withErrors([
-            'email' => 'Please login to access the dashboard.',
-        ])->onlyInput('email');
     }
 
     public function logout(Request $request)
