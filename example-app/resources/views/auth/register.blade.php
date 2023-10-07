@@ -40,7 +40,7 @@
                                 <div class="mb-3 row-col">
                                     <label for="password"
                                         class="col-form-label text-md-end text-start">Password</label>
-                                    <div class=""">
+                                    <div class="">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror"
                                             id="password" name="password">
                                         @if ($errors->has('password'))
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="mb-3 row-col">
                                     <label for="password_confirmation"
-                                        class="col-md-4 col-form-label text-md-end text-start">Confirm Password</label>
+                                        class="col-form-label text-md-end text-start">Confirm Password</label>
                                     <div class="">
                                         <input type="password" class="form-control" id="password_confirmation"
                                             name="password_confirmation">

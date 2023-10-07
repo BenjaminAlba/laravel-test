@@ -4,62 +4,76 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function adminIndex()
     {
-        //
+        $productos = Producto::all();
+        // Fetch user information for each product
+        foreach ($productos as $producto) {
+            $user = User::find($producto->idusuario);
+
+            // Attach user information to each product
+            $producto->user = $user;
+        }
+
+        return view('product.list', ['productos' => $productos]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function providerIndex()
     {
-        //
+        // Get the ID of the authenticated user
+        $userId = Auth::id();
+
+        // Retrieve products where idusuario matches the authenticated user's ID
+        $productos = Producto::where('idusuario', $userId)->get();
+        return view('product.list', ['productos' => $productos]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required',
+        ]);
+
+        $data['idusuario'] = Auth::id();
+
+        Producto::create($data);
+
+        return back();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Producto $producto)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Producto $producto)
     {
-        //
+        return view('product.update', ['producto' => $producto]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Producto $producto)
+    public function update(Producto $producto, Request $request)
     {
-        //
+        $data = $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required',
+        ]);
+        //$data['idusuario'] = Auth::id();
+
+        $producto->update($data);
+
+        if(Auth::user()->role == "administrador")
+            return redirect()->route("admin-products");
+        else if(Auth::user()->role == "proveedor")
+            return redirect()->route("provider-products");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Producto $producto)
+    public function delete(Producto $producto)
     {
-        //
+        $producto->delete();
+        if(Auth::user()->role == "administrador")
+            return redirect()->route("admin-products");
+        else if(Auth::user()->role == "proveedor")
+            return redirect()->route("provider-products");
     }
 }

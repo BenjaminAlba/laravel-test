@@ -14,7 +14,7 @@
     <script src="https://kit.fontawesome.com/1603b167ac.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="bg-secondary">
 
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container">
@@ -56,7 +56,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container ">
         @yield('content')
     </div>
 
