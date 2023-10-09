@@ -14,8 +14,7 @@
                             <form action="{{ route('authenticate') }}" method="post">
                                 @csrf
                                 <div class="mb-3 row-col">
-                                    <label for="email" class="col-form-label text-md-end text-start">Email
-                                        Address</label>
+                                    <label for="email" class="col-form-label text-md-end text-start">Correo Electrónico</label>
                                     <div class="">
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                             id="email" name="email" value="{{ old('email') }}">
@@ -26,7 +25,7 @@
                                 </div>
                                 <div class="mb-3 row-col">
                                     <label for="password"
-                                        class="col-form-label text-md-end text-start">Password</label>
+                                        class="col-form-label text-md-end text-start">Contraseña</label>
                                     <div class="">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror"
                                             id="password" name="password">

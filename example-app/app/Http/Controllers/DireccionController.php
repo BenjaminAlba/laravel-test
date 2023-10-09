@@ -4,62 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\Direccion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 
 class DireccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function create(Request $request)
     {
-        //
+        $data = $request->validate([
+            'calle' => 'required',
+            'numero' => 'required',
+        ]);
+
+        $data['idusuario'] = Auth::id();
+
+        Direccion::create($data);
+
+        return back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function edit()
     {
-        //
+        $userId = Auth::id();
+        $direccion = Direccion::where('idusuario', $userId)->first();
+        if($direccion)
+            return view('user.editdomicilio', ['direccion' => $direccion]);
+        else
+            return redirect()->route('user-dashboard');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(Direccion $direccion, Request $request)
     {
-        //
-    }
+        $data = $request->validate([
+            'calle' => 'required',
+            'numero' => 'required',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Direccion $direccion)
-    {
-        //
-    }
+        $direccion->update($data);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Direccion $direccion)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Direccion $direccion)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Direccion $direccion)
-    {
-        //
+        return redirect()->route('user-dashboard.data');
     }
 }

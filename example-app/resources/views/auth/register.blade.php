@@ -17,7 +17,7 @@
                                 @csrf
                                 <div class="mb-3 row-col">
                                     <label for="name"
-                                        class="col-form-label text-md-end text-start">Name</label>
+                                        class="col-form-label text-md-end text-start">Nombre</label>
                                     <div class="">
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             id="name" name="name" value="{{ old('name') }}">
@@ -27,8 +27,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 row-col">
-                                    <label for="email" class="col-form-label text-md-end text-start">Email
-                                        Address</label>
+                                    <label for="email" class="col-form-label text-md-end text-start">Correo electrónico</label>
                                     <div class="">
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                             id="email" name="email" value="{{ old('email') }}">
@@ -39,7 +38,7 @@
                                 </div>
                                 <div class="mb-3 row-col">
                                     <label for="password"
-                                        class="col-form-label text-md-end text-start">Password</label>
+                                        class="col-form-label text-md-end text-start">Contraseña</label>
                                     <div class="">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror"
                                             id="password" name="password">
@@ -50,7 +49,7 @@
                                 </div>
                                 <div class="mb-3 row-col">
                                     <label for="password_confirmation"
-                                        class="col-form-label text-md-end text-start">Confirm Password</label>
+                                        class="col-form-label text-md-end text-start">Confirmar Contraseña</label>
                                     <div class="">
                                         <input type="password" class="form-control" id="password_confirmation"
                                             name="password_confirmation">

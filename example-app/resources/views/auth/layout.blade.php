@@ -18,7 +18,18 @@
 
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container">
-            <a class="navbar-brand text-white" href="{{ URL('/') }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+            @auth
+                @if (auth()->user()->role == "administrador")
+                    <a class="navbar-brand text-white" href="{{ route("admin-dashboard") }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                @elseif (auth()->user()->role == "proveedor")
+                    <a class="navbar-brand text-white" href="{{ route("provider-dashboard") }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                @elseif (auth()->user()->role == "usuario")
+                    <a class="navbar-brand text-white" href="{{ route("user-dashboard") }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                @endif
+            @endauth
+            @guest
+                <a class="navbar-brand text-white" href="{{ URL('/') }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+            @endguest
             <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-dark navbar-toggler-icon"></span>

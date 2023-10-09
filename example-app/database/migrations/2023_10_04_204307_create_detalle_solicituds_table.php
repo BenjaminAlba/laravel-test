@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idsolicitud');
             $table->unsignedBigInteger('idproducto');
             $table->integer('cantidad');
+            $table->string('estadoentrega');
             $table->timestamps();
         });
     }

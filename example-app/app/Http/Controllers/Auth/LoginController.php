@@ -39,8 +39,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('landing')
-        ->withSuccess('You have successfully registered & logged in!');
+        return redirect()->route('user-dashboard');
     }
 
     public function login()
