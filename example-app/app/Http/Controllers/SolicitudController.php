@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
+use App\Models\Producto;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class SolicitudController extends Controller
 {

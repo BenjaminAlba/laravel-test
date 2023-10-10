@@ -39,8 +39,11 @@
                 </tbody>
             </table>
         </div>
+
+        {{ $usuarios->links() }}
+        
         <!-- Collapse -->
-        <div class="row">
+        <div class="row mt-2">
             <p class="d-inline-flex gap-1">
                 <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">

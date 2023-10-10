@@ -6,17 +6,18 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Solicitud;
+use App\Models\DetalleSolicitud;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
 {
     public function adminIndex()
     {
-        $productos = Producto::all();
-        // Fetch user information for each product
+        $productos = Producto::paginate(10);
         foreach ($productos as $producto) {
             $user = User::find($producto->idusuario);
-
-            // Attach user information to each product
             $producto->user = $user;
         }
 
@@ -25,11 +26,18 @@ class ProductoController extends Controller
 
     public function providerIndex()
     {
-        // Get the ID of the authenticated user
         $userId = Auth::id();
+        $productos = Producto::where('idusuario', $userId)->paginate(10);
+        return view('product.list', ['productos' => $productos]);
+    }
 
-        // Retrieve products where idusuario matches the authenticated user's ID
-        $productos = Producto::where('idusuario', $userId)->get();
+    public function userIndex()
+    {
+        $productos = Producto::paginate(10);
+        foreach ($productos as $producto) {
+            $user = User::find($producto->idusuario);
+            $producto->user = $user;
+        }
         return view('product.list', ['productos' => $productos]);
     }
 
@@ -75,5 +83,48 @@ class ProductoController extends Controller
             return redirect()->route("admin-products");
         else if(Auth::user()->role == "proveedor")
             return redirect()->route("provider-products");
+    }
+
+    public function addToCart(Producto $producto)
+    {
+        $userId = Auth::id();
+
+        $hasActiveSolicitud = Solicitud::where('idusuario', $userId)
+        ->where('estadofinalizacion', 'activa')
+        ->exists();
+
+        if(!$hasActiveSolicitud)
+        {
+            Solicitud::create([
+                'idusuario' => $userId,
+                'fecha' => Carbon::today(),
+                'estadofinalizacion' => 'activa',
+            ]); 
+        }
+
+        $activeSolicitud = Solicitud::where('idusuario', $userId)
+            ->where('estadofinalizacion', 'activa')
+            ->first();
+
+        $idSolicitud = $activeSolicitud->id;
+
+        $detalleSolicitud = DetalleSolicitud::where([
+            ['idsolicitud', $idSolicitud],
+            ['idproducto', $producto->id],
+        ])->first();
+
+        if($detalleSolicitud){
+            $detalleSolicitud->cantidad = $detalleSolicitud->cantidad + 1;
+            $detalleSolicitud->save();
+        }
+        else{
+            DetalleSolicitud::create([
+                'idsolicitud' => $activeSolicitud->id,
+                'idproducto' => $producto->id,
+                'cantidad' => 1,
+                'estadoentrega' => 'No Entregado',
+            ]);
+        }
+        return redirect()->route('user-products');
     }
 }

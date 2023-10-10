@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetalleSolicitud;
+use App\Models\Producto;
+use App\Models\Solicitud;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DetalleSolicitudController extends Controller
@@ -15,12 +18,9 @@ class DetalleSolicitudController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+    
     }
 
     /**

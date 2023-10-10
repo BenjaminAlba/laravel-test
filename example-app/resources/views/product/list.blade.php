@@ -43,9 +43,11 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- Display pagination links -->
+                {{ $productos->links() }}
 
                 <!-- Collapse -->
-                <div class="row">
+                <div class="row mt-2">
                     <p class="d-inline-flex gap-1">
                         <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
@@ -116,8 +118,11 @@
                     </table>
                 </div>
 
+                <!-- Display pagination links -->
+                {{ $productos->links() }}
+
                 <!-- Collapse -->
-                <div class="row">
+                <div class="row mt-2">
                     <p class="d-inline-flex gap-1">
                         <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
@@ -146,6 +151,41 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+        @elseif (auth()->user()->role == 'usuario')
+            <div class="mt-5">
+                <div class="row">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Vendedor</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Comprar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($productos as $producto)
+                                <tr>
+                                    <th scope="row">{{ $producto->id }}</th>
+                                    <td>{{ $producto->nombre }}</td>
+                                    <td>{{ $producto->user->name }}</td>
+                                    <td>{{ $producto->precio }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ route('user-shop.addToCart', ['producto' => $producto]) }}">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit" class="btn text-white">Comprar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <!-- Display pagination links -->
+                    {{ $productos->links() }}
                 </div>
             </div>
         @endif

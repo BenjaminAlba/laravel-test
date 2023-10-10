@@ -15,9 +15,20 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Proveedores</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a type="button" class="btn btn-outline-dark">Acceder</a>
+                        <h5 class="card-title">Entregas</h5>
+                        <p class="card-text">Cambie el estado de entrega de los clientes.</p>
+                        <a href="{{ route('provider-deliveries') }}" type="button" class="btn btn-outline-dark">Acceder</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" mt-5 row justify-content-center">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Estadísticas</h5>
+                        <p class="card-text">Revise las principales estadísticas del negocio.</p>
+                        <a href="" type="button" class="btn btn-outline-dark">Comprar</a>
                     </div>
                 </div>
             </div>

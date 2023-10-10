@@ -13,5 +13,6 @@ class Solicitud extends Model
         'id',
         'idusuario',
         'fecha',
+        'estadofinalizacion'
     ];
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('idusuario');
             $table->date('fecha');
+            $table->string('estadofinalizacion');
             $table->timestamps();
         });
     }

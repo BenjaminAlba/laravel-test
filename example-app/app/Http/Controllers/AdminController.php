@@ -14,7 +14,7 @@ class AdminController extends Controller
 
     public function providerIndex()
     {
-        $usuarios = User::where('role', 'proveedor')->get();
+        $usuarios = User::where('role', 'proveedor')->paginate(10);
         return view('admin.providers', ['usuarios' => $usuarios]);
     }
 

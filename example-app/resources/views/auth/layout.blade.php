@@ -19,36 +19,46 @@
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container">
             @auth
-                @if (auth()->user()->role == "administrador")
-                    <a class="navbar-brand text-white" href="{{ route("admin-dashboard") }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
-                @elseif (auth()->user()->role == "proveedor")
-                    <a class="navbar-brand text-white" href="{{ route("provider-dashboard") }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
-                @elseif (auth()->user()->role == "usuario")
-                    <a class="navbar-brand text-white" href="{{ route("user-dashboard") }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                @if (auth()->user()->role == 'administrador')
+                    <a class="navbar-brand text-white" href="{{ route('admin-dashboard') }}"> <span> <i
+                                class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                @elseif (auth()->user()->role == 'proveedor')
+                    <a class="navbar-brand text-white" href="{{ route('provider-dashboard') }}"> <span> <i
+                                class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                @elseif (auth()->user()->role == 'usuario')
+                    <a class="navbar-brand text-white" href="{{ route('user-dashboard') }}"> <span> <i
+                                class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
                 @endif
             @endauth
             @guest
-                <a class="navbar-brand text-white" href="{{ URL('/') }}"> <span> <i class="fa-brands fa-ethereum" style="color: #ffffff;"></i> </span> Æther Store</a>
+                <a class="navbar-brand text-white" href="{{ URL('/') }}"> <span> <i class="fa-brands fa-ethereum"
+                            style="color: #ffffff;"></i> </span> Æther Store</a>
             @endguest
-            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-dark navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link text-light"
-                                href="{{ route('login') }}">Login</a>
+                            <a class="nav-link text-light" href="{{ route('login') }}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light"
-                                href="{{ route('register') }}">Register</a>
+                            <a class="nav-link text-light" href="{{ route('register') }}">Register</a>
                         </li>
                     @else
+                        @auth
+                            @if (auth()->user()->role == 'usuario')
+                                <a href="{{ route('user-history') }}" class="btn btn-dark">
+                                    <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                                </a>
+                            @endif
+                        @endauth
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu bg-dark">

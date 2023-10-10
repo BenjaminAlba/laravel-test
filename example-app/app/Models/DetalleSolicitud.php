@@ -14,5 +14,6 @@ class DetalleSolicitud extends Model
         'idsolicitud',
         'idproducto',
         'cantidad',
+        'estadoentrega'
     ];
 }
